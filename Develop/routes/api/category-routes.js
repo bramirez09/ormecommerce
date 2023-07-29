@@ -5,13 +5,13 @@ const { Category, Product } = require('../../models');
 
   // find all categories
   // be sure to include its associated Products
-router.get('/', async (req, res) => {
-  try {
-    const categoriesData = await Category.findall();
-    res.status(200).json(categoriesData);
-  } catch (err) {
-    res.status(500).json(err);
-  }
+router.get('/', (req, res) => {
+    Category.findAll({
+      include: [Product],
+    })
+    .then((categories) =>
+      res.json(categories)).catch((err)=>
+      res.status(500).json(err));
 });
 
   // find one category by its `id` value
